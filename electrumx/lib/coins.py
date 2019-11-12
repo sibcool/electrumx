@@ -3302,3 +3302,23 @@ class GravityZeroCoin(ScryptMixin, Coin):
     RPC_PORT = 36442
     ESTIMATE_FEE = 0.01
     RELAY_FEE = 0.01
+
+class Peepcoin(Coin):
+    NAME = "Peepcoin"
+    SHORTNAME = "PCN"
+    NET = "mainnet"
+    P2PKH_VERBYTE = bytes.fromhex("37")
+    P2SH_VERBYTES = [bytes.fromhex("55")]
+    WIF_BYTE = bytes.fromhex("55")
+    GENESIS_HASH = ('000007d4a3378b9ec2eb544355591aa7'
+                    'ccd5a0a7a38159399b852bbd59940d50')
+    DESERIALIZER = lib_tx.DeserializerTxTime
+    DAEMON = daemon.FakeEstimateLegacyRPCDaemon
+    ESTIMATE_FEE = 0.01
+    RELAY_FEE = 0.01
+    TX_COUNT = 3883524
+    TX_COUNT_HEIGHT = 1941762
+    TX_PER_BLOCK = 2
+    RPC_PORT = 8194
+    REORG_LIMIT = 5000
+
