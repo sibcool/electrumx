@@ -3312,6 +3312,7 @@ class Peepcoin(Coin):
     GENESIS_HASH = ('000007d4a3378b9ec2eb544355591aa7'
                     'ccd5a0a7a38159399b852bbd59940d50')
     DESERIALIZER = lib_tx.DeserializerTxTime
+    DAEMON = daemon.LegacyRPCDaemon
     ESTIMATE_FEE = 0.01
     RELAY_FEE = 0.01
     TX_COUNT = 3883524
