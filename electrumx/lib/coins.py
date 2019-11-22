@@ -50,7 +50,6 @@ import electrumx.server.daemon as daemon
 from electrumx.server.session import (ElectrumX, DashElectrumX,
                                       SmartCashElectrumX, AuxPoWElectrumX)
 
-
 Block = namedtuple("Block", "raw header transactions")
 
 
@@ -3320,4 +3319,19 @@ class Peepcoin(Coin):
     TX_PER_BLOCK = 2
     RPC_PORT = 8194
     REORG_LIMIT = 5000
-
+    
+    @classmethod
+    def block_header(cls, block, height):
+        deserializer = cls.DESERIALIZER(block)
+        return deserializer.read_header(height, cls.BASIC_HEADER_SIZE)
+      
+    @classmethod
+    def header_hash(cls, header):
+        '''Given a header return the hash.'''
+        try:
+          import scrypt
+          getPoWHash = lambda x: scrypt.hash(x, x, N=1024, r=1, p=1, buflen=32)
+        except ImportError:
+          util.print_msg("Warning: package scrypt not available; synchronization could be very slow")
+          from .scrypt import scrypt_1024_1_1_80 as getPoWHash
+        return getPoWHash(header)
