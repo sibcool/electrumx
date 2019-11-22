@@ -968,3 +968,31 @@ class DeserializerXaya(DeserializerSegWit, DeserializerAuxPow):
         end = self.cursor
         self.cursor = start
         return self._read_nbytes(end - start)
+
+class DeserializerPeepcoin(Deserializer):
+    VERSION_AUXPOW = (1 << 8)
+
+    def is_merged_block(self):
+        start = self.cursor
+        self.cursor = 0
+        version = self._read_le_uint32()
+        self.cursor = start
+        if version & self.VERSION_AUXPOW:
+            return True
+        return False
+
+    def read_header(self, height, static_header_size):
+        '''Return the AuxPow block header bytes'''
+        start = self.cursor
+        self.cursor = start
+        header_end = static_header_size
+        return self._read_nbytes(header_end)
+
+    def read_tx(self):
+        return TxTime(
+            self._read_le_int32(),   # version
+            self._read_le_uint32(),  # time
+            self._read_inputs(),     # inputs
+            self._read_outputs(),    # outputs
+            self._read_le_uint32(),  # locktime
+        )
