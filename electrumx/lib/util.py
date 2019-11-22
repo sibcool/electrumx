@@ -300,6 +300,11 @@ def protocol_version(client_req, min_tuple, max_tuple):
 
     return result, client_min
 
+def print_msg(*args):
+    # Stringify args
+    args = [str(item) for item in args]
+    sys.stdout.write(" ".join(args) + "\n")
+    sys.stdout.flush()
 
 struct_le_i = Struct('<i')
 struct_le_q = Struct('<q')
